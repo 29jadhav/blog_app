@@ -27,9 +27,6 @@ class _SigninPageState extends State<SigninPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppPallete.backgroundColor,
-      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
