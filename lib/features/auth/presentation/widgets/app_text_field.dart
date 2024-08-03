@@ -8,7 +8,7 @@ class AppTextField extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.controller,
-    this.isObsureText = true,
+    this.isObsureText = false,
   });
 
   @override
