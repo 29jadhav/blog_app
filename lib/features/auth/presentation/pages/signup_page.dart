@@ -1,4 +1,4 @@
-import 'package:blog_app/core/common/loader.dart';
+import 'package:blog_app/core/common/widgets/loader.dart';
 import 'package:blog_app/core/theme/app_pallete.dart';
 import 'package:blog_app/core/utils/show_snakbar.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
@@ -97,7 +97,9 @@ class _SignupPageState extends State<SignupPage> {
                       AuthGradientButton(
                         text: "Sign Up",
                         onTap: () {
-                          _signupRequest(context);
+                          if (formKey.currentState!.validate()) {
+                            _signupRequest(context);
+                          }
                         },
                       ),
                       const SizedBox(
@@ -105,7 +107,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                       GestureDetector(
                         onTap: () =>
-                            Navigator.pushNamed(context, SigninPage.signPage),
+                            Navigator.pushNamed(context, SigninPage.signinPage),
                         child: RichText(
                             text: TextSpan(
                           children: [

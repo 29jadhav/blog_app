@@ -1,4 +1,4 @@
-import 'package:blog_app/core/common/loader.dart';
+import 'package:blog_app/core/common/widgets/loader.dart';
 import 'package:blog_app/core/theme/app_pallete.dart';
 import 'package:blog_app/core/utils/show_snakbar.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SigninPage extends StatefulWidget {
-  static const signPage = "/";
+  static const signinPage = "/";
   const SigninPage({super.key});
 
   @override
@@ -22,6 +22,12 @@ class _SigninPageState extends State<SigninPage> {
   final passwordController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    print("singin init state..");
+  }
+
+  @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
@@ -30,6 +36,7 @@ class _SigninPageState extends State<SigninPage> {
 
   @override
   Widget build(BuildContext context) {
+    print("signin page");
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -74,7 +81,11 @@ class _SigninPageState extends State<SigninPage> {
                       ),
                       AuthGradientButton(
                         text: "Sign In",
-                        onTap: () {},
+                        onTap: () {
+                          if (formKey.currentState!.validate()) {
+                            _signin(context);
+                          }
+                        },
                       ),
                       const SizedBox(
                         height: 10,
@@ -110,5 +121,14 @@ class _SigninPageState extends State<SigninPage> {
         ),
       ),
     );
+  }
+
+  void _signin(BuildContext context) {
+    return context.read<AuthBloc>().add(
+          AuthSignin(
+            email: emailController.text.trim(),
+            password: passwordController.text.trim(),
+          ),
+        );
   }
 }

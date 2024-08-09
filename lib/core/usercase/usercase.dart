@@ -4,3 +4,5 @@ import 'package:fpdart/fpdart.dart';
 abstract interface class UseCase<SuccessType, Param> {
   Future<Either<Failuer, SuccessType>> call(Param param);
 }
+
+class NoParam {}
