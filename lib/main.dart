@@ -3,6 +3,9 @@ import 'package:blog_app/core/theme/app_theme.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/auth/presentation/pages/signin_page.dart';
 import 'package:blog_app/features/auth/presentation/pages/signup_page.dart';
+import 'package:blog_app/features/blog/presentation/bloc/blog_bloc.dart';
+import 'package:blog_app/features/blog/presentation/pages/add_new_blog_page.dart';
+import 'package:blog_app/features/blog/presentation/pages/blog_page.dart';
 import 'package:blog_app/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +17,8 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),
-        BlocProvider(create: (_) => serviceLocator<AuthBloc>())
+        BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
+        BlocProvider(create: (_) => serviceLocator<BlogBloc>())
       ],
       child: const MyApp(),
     ),
@@ -32,7 +36,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    print("MyApp Init state.. ");
     context.read<AuthBloc>().add(AuthIsUserLoggedIn());
   }
 
@@ -47,22 +50,18 @@ class _MyAppState extends State<MyApp> {
         SigninPage.signinPage: (context) =>
             BlocSelector<AppUserCubit, AppUserState, bool>(
               selector: (state) {
-                print("state in selector $state");
                 return state is AppUserLoggedIn;
               },
               builder: (context, isUserLoggedIn) {
-                print("state in builder $isUserLoggedIn");
                 if (isUserLoggedIn) {
-                  return const Scaffold(
-                    body: Center(
-                      child: Text("Logged In"),
-                    ),
-                  );
+                  return const BlogPage();
                 }
                 return const SigninPage();
               },
             ),
         SignupPage.signupPage: (context) => const SignupPage(),
+        AddNewBlogPage.addNewBlogPage: (context) => const AddNewBlogPage(),
+        BlogPage.blogPage: (context) => const BlogPage(),
       },
     );
   }

@@ -24,7 +24,6 @@ class _SigninPageState extends State<SigninPage> {
   @override
   void initState() {
     super.initState();
-    print("singin init state..");
   }
 
   @override
@@ -36,7 +35,6 @@ class _SigninPageState extends State<SigninPage> {
 
   @override
   Widget build(BuildContext context) {
-    print("signin page");
     return Scaffold(
       body: SafeArea(
         child: Center(

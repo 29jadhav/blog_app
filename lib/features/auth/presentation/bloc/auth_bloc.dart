@@ -27,7 +27,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         _getCurrentUser = getCurrentUser,
         _appUser = appUser,
         super(AuthInitial()) {
-    print("AuthBloc");
     on<AuthEvent>((_, emit) => emit(AuthLoading()));
     on<AuthSignup>(_signup);
     on<AuthSignin>(_signin);
@@ -75,7 +74,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthIsUserLoggedIn event,
     Emitter<AuthState> emit,
   ) async {
-    print("is user logged in..");
     final response = await _getCurrentUser(NoParam());
 
     response.fold((failuer) => emit(AuthFailuer(failuer.errorMessage)),
@@ -83,7 +81,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _emitAuthSuccess(User user, Emitter<AuthState> emit) {
-    print("_emitAuthSuccess....");
     _appUser.updateUser(user);
     emit(AuthSuccess(user));
   }

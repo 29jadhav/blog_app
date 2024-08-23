@@ -4,34 +4,41 @@ import 'package:blog_app/core/exception/server_exceptions.dart';
 import 'package:blog_app/features/blog/data/models/blog_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-abstract interface class BlogRemoteDateSoruce{
-  Future<BlogModel> uploadBlog(BlogModel blogModel); 
-  Future<String> uploadBlogImage({required File image, required BlogModel blogModel});
+abstract interface class BlogRemoteDateSoruce {
+  Future<BlogModel> uploadBlog(BlogModel blogModel);
+  Future<String> uploadBlogImage(
+      {required File image, required BlogModel blogModel});
 }
 
-
-class BlogRemoteDataSourceImpl implements BlogRemoteDateSoruce{
+class BlogRemoteDataSourceImpl implements BlogRemoteDateSoruce {
   SupabaseClient supabaseClient;
-  BlogRemoteDataSourceImpl(this.supabaseClient)
+  BlogRemoteDataSourceImpl(this.supabaseClient);
+
   @override
   Future<BlogModel> uploadBlog(BlogModel blogModel) async {
-    try{
-      final blogData  = await supabaseClient.from("blogs").insert(blogModel.toJson()).select();
+    try {
+      final blogData = await supabaseClient
+          .from("blogs")
+          .insert(blogModel.toJson())
+          .select();
       return BlogModel.fromJson(blogData.first);
-    }catch(e){
+    } catch (e) {
       throw ServerExceptions(errorMessage: e.toString());
     }
   }
-  
+
   @override
-  Future<String> uploadBlogImage({required File image, required BlogModel blogModel}) async{
-    try{
-      await supabaseClient.storage.from("blog_images").upload(blogModel.id, image);
-      return supabaseClient.storage.from("blog_images").getPublicUrl(blogModel.id);
-    }catch(e){
+  Future<String> uploadBlogImage(
+      {required File image, required BlogModel blogModel}) async {
+    try {
+      await supabaseClient.storage
+          .from("blog_images")
+          .upload(blogModel.id, image);
+      return supabaseClient.storage
+          .from("blog_images")
+          .getPublicUrl(blogModel.id);
+    } catch (e) {
       throw ServerExceptions(errorMessage: e.toString());
     }
   }
-
 }
-
