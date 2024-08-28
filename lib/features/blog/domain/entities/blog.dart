@@ -8,6 +8,7 @@ class Blog {
   final String imageUrl;
   final List<String> topics;
   final String profileId;
+  final String? posterName;
 
   Blog({
     required this.id,
@@ -17,5 +18,6 @@ class Blog {
     required this.imageUrl,
     required this.topics,
     required this.profileId,
+    this.posterName,
   });
 }

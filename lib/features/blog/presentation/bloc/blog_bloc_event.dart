@@ -18,3 +18,5 @@ class UploadBlogEvent extends BlogBlocEvent {
     required this.profileId,
   });
 }
+
+class GetAllBlogEvent extends BlogBlocEvent {}

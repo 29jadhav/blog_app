@@ -8,6 +8,7 @@ abstract interface class BlogRemoteDateSoruce {
   Future<BlogModel> uploadBlog(BlogModel blogModel);
   Future<String> uploadBlogImage(
       {required File image, required BlogModel blogModel});
+  Future<List<BlogModel>> getAllBlogs();
 }
 
 class BlogRemoteDataSourceImpl implements BlogRemoteDateSoruce {
@@ -37,6 +38,21 @@ class BlogRemoteDataSourceImpl implements BlogRemoteDateSoruce {
       return supabaseClient.storage
           .from("blog_images")
           .getPublicUrl(blogModel.id);
+    } catch (e) {
+      throw ServerExceptions(errorMessage: e.toString());
+    }
+  }
+
+  @override
+  Future<List<BlogModel>> getAllBlogs() async {
+    try {
+      final result =
+          await supabaseClient.from("blogs").select("*,profiles(name)");
+      print("result=$result");
+      return result
+          .map((blog) => BlogModel.fromJson(blog)
+              .copyWith(posterName: blog["profiles"]["name"]))
+          .toList();
     } catch (e) {
       throw ServerExceptions(errorMessage: e.toString());
     }

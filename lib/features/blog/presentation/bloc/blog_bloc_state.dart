@@ -14,3 +14,8 @@ final class BlogBlocFailuer extends BlogBlocState {
 
   BlogBlocFailuer({required this.errorMessage});
 }
+
+final class DownloadBlogSuccess extends BlogBlocState {
+  final List<Blog> blogs;
+  DownloadBlogSuccess({required this.blogs});
+}
